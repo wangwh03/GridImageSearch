@@ -14,6 +14,7 @@ import android.widget.GridView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wewang.gridimagesearch.adapters.ImageResultsAdapter;
+import com.wewang.gridimagesearch.clients.GoogleImageSearchClient;
 import com.wewang.gridimagesearch.models.ImageResult;
 import com.wewang.gridimagesearch.utils.ImageResultParser;
 import com.wewang.gridimagesearch.R;
@@ -82,10 +83,8 @@ public class SearchActivity extends AppCompatActivity {
 
     public void onImageSearch(View v) {
         String query = etQuery.getText().toString();
-        AsyncHttpClient client = new AsyncHttpClient();
-        String searchUrl = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="
-                + query + "&rsz=8";
-        client.get(searchUrl, new JsonHttpResponseHandler() {
+        GoogleImageSearchClient client = new GoogleImageSearchClient();
+        client.search(query, 8, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("DEBUG", response.toString());
