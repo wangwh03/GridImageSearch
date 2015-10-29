@@ -21,10 +21,14 @@
         <activity
             android:name=".activities.ImageDisplayActivity"
             android:label="@string/title_activity_image_display"
-            android:parentActivityName=".activities.SearchActivity">
+            android:parentActivityName=".activities.SearchActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wewang.gridimagesearch.activities.SearchActivity" />
+        </activity>
+        <activity
+            android:name=".activities.AdvancedSettingsActivity"
+            android:label="@string/title_activity_advanced_settings" >
         </activity>
     </application>
 
