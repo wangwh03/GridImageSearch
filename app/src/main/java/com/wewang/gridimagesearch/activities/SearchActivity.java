@@ -1,19 +1,29 @@
-package com.wewang.gridimagesearch;
+package com.wewang.gridimagesearch.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.wewang.gridimagesearch.adapters.ImageResultsAdapter;
+import com.wewang.gridimagesearch.models.ImageResult;
+import com.wewang.gridimagesearch.utils.ImageResultParser;
+import com.wewang.gridimagesearch.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -21,17 +31,31 @@ public class SearchActivity extends AppCompatActivity {
 
     private EditText etQuery;
     private GridView gvResults;
+    private List<ImageResult> images;
+    private ImageResultsAdapter imageResultsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         setupViews();
+        images = new ArrayList<>();
+        imageResultsAdapter = new ImageResultsAdapter(this, images);
+        gvResults.setAdapter(imageResultsAdapter);
     }
 
     private void setupViews() {
         etQuery = (EditText) findViewById(R.id.etQuery);
         gvResults = (GridView) findViewById(R.id.gvResults);
+        gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SearchActivity.this, ImageDisplayActivity.class);
+                ImageResult result = images.get(position);
+                intent.putExtra("imageInfo", result);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -65,6 +89,13 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("DEBUG", response.toString());
+                try {
+                    JSONArray imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
+                    images.clear();
+                    imageResultsAdapter.addAll(ImageResultParser.parseFromJSONArray(imageResultsJson));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
