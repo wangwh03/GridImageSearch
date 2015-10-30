@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.wewang.gridimagesearch.R;
@@ -14,14 +15,18 @@ import com.wewang.gridimagesearch.R;
 /**
  * Created by wewang on 10/29/15.
  */
-public class AdvancedFragmentDialog extends DialogFragment {
+public class SettingsFragmentDialog extends DialogFragment {
     private EditText etImageSize;
 
-    public AdvancedFragmentDialog() { }
+    public SettingsFragmentDialog() { }
 
-    public static AdvancedFragmentDialog newInstance() {
-        AdvancedFragmentDialog frag = new AdvancedFragmentDialog();
-        return frag;
+    public static SettingsFragmentDialog newInstance() {
+        return new SettingsFragmentDialog();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

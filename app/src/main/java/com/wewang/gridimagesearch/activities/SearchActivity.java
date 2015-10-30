@@ -1,6 +1,7 @@
 package com.wewang.gridimagesearch.activities;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,14 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wewang.gridimagesearch.adapters.ImageResultsAdapter;
 import com.wewang.gridimagesearch.clients.GoogleImageSearchClient;
+import com.wewang.gridimagesearch.fragments.SettingsFragmentDialog;
 import com.wewang.gridimagesearch.models.ImageResult;
 import com.wewang.gridimagesearch.utils.ImageResultParser;
 import com.wewang.gridimagesearch.R;
@@ -92,10 +91,16 @@ public class SearchActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
+            launchSettingView();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void launchSettingView() {
+        FragmentManager fm = getSupportFragmentManager();
+        SettingsFragmentDialog settingsFragmentDialog = SettingsFragmentDialog.newInstance();
+        settingsFragmentDialog.show(fm, "fragment_advanced_settings");
     }
 
     public void fetchImages(String query) {
@@ -119,4 +124,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

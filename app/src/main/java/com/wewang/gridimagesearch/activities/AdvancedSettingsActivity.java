@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.wewang.gridimagesearch.R;
-import com.wewang.gridimagesearch.fragments.AdvancedFragmentDialog;
+import com.wewang.gridimagesearch.fragments.SettingsFragmentDialog;
 
 public class AdvancedSettingsActivity extends AppCompatActivity {
 
@@ -19,7 +19,7 @@ public class AdvancedSettingsActivity extends AppCompatActivity {
 
     private void showSettingsDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        AdvancedFragmentDialog advancedFragmentDialog = AdvancedFragmentDialog.newInstance();
+        SettingsFragmentDialog advancedFragmentDialog = SettingsFragmentDialog.newInstance();
         advancedFragmentDialog.show(fm, "fragment_advanced_settings");
     }
 
@@ -45,4 +45,6 @@ public class AdvancedSettingsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

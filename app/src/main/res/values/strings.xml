@@ -10,4 +10,9 @@
     <string name="advanced_filter_label">Advanced filters</string>
     <string name="image_size_label">Image Size</string>
     <string name="title_activity_advanced_settings">AdvancedSettingsActivity</string>
+    <string name="color_filter_label">Color Filter</string>
+    <string name="image_type_label">Image Type</string>
+    <string name="site_filter_label">Site Filter</string>
+    <string name="save">save</string>
+    <string name="cancel">cancel</string>
 </resources>
