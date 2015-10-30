@@ -1,15 +1,18 @@
 package com.wewang.gridimagesearch.models;
 
+import java.io.Serializable;
+
 /**
  * Created by wewang on 10/30/15.
  */
-public class FilterSettings {
+public class FilterSettings implements Serializable {
+    // TODO - define enums
     private String imageSize;
     private String color;
     private String imageType;
     private String site;
 
-    public FilterSettings(String site, String imageSize, String color, String imageType) {
+    public FilterSettings(String imageSize, String color, String imageType, String site) {
         this.site = site;
         this.imageSize = imageSize;
         this.color = color;
@@ -46,5 +49,15 @@ public class FilterSettings {
 
     public void setSite(String site) {
         this.site = site;
+    }
+
+    @Override
+    public String toString() {
+        return "FilterSettings{" +
+                "imageSize='" + imageSize + '\'' +
+                ", color='" + color + '\'' +
+                ", imageType='" + imageType + '\'' +
+                ", site='" + site + '\'' +
+                '}';
     }
 }

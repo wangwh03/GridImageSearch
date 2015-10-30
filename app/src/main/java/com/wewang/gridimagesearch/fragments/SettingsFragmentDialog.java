@@ -1,22 +1,35 @@
 package com.wewang.gridimagesearch.fragments;
 
+import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.wewang.gridimagesearch.R;
+import com.wewang.gridimagesearch.models.FilterSettings;
 
 /**
  * Created by wewang on 10/29/15.
  */
 public class SettingsFragmentDialog extends DialogFragment {
     private EditText etImageSize;
+    private EditText etColorFilter;
+    private EditText etImageType;
+    private EditText etSiteFilter;
+    private Button btnCancel;
+    private Button btnSave;
+
+    public interface  DismissDialogListener {
+        void onFinishSettingDialog(FilterSettings filterSettings);
+    }
 
     public SettingsFragmentDialog() { }
 
@@ -38,11 +51,37 @@ public class SettingsFragmentDialog extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         // Get field from view
         etImageSize = (EditText) view.findViewById(R.id.etImageSize);
         // Show soft keyboard automatically and request focus to field
         etImageSize.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        etColorFilter = (EditText) view.findViewById(R.id.etColorFilter);
+        etImageType = (EditText) view.findViewById(R.id.etImageType);
+        etSiteFilter = (EditText) view.findViewById(R.id.etSiteFilter);
+
+        btnSave = (Button) view.findViewById(R.id.btnSaveSettings);
+
+        btnSave.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        Log.d("DEBUG", "dismissed");
+        super.onDismiss(dialog);
+        DismissDialogListener listener = (DismissDialogListener) getActivity();
+        FilterSettings filterSettings = new FilterSettings(etImageSize.getText().toString(),
+                etColorFilter.getText().toString(),
+                etImageType.getText().toString(),
+                etSiteFilter.getText().toString());
+        listener.onFinishSettingDialog(filterSettings);
     }
 }

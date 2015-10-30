@@ -17,6 +17,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wewang.gridimagesearch.adapters.ImageResultsAdapter;
 import com.wewang.gridimagesearch.clients.GoogleImageSearchClient;
 import com.wewang.gridimagesearch.fragments.SettingsFragmentDialog;
+import com.wewang.gridimagesearch.models.FilterSettings;
 import com.wewang.gridimagesearch.models.ImageResult;
 import com.wewang.gridimagesearch.utils.ImageResultParser;
 import com.wewang.gridimagesearch.R;
@@ -25,16 +26,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements SettingsFragmentDialog.DismissDialogListener {
 
     private GridView gvResults;
     private List<ImageResult> images;
     private ImageResultsAdapter imageResultsAdapter;
+    private FilterSettings filterSettings = new FilterSettings("", "", "", "");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +108,7 @@ public class SearchActivity extends AppCompatActivity {
 
     public void fetchImages(String query) {
         GoogleImageSearchClient client = new GoogleImageSearchClient();
-        client.search(query, 8, new JsonHttpResponseHandler() {
+        client.search(query, 8, filterSettings, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("DEBUG", response.toString());
@@ -125,5 +128,9 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onFinishSettingDialog(FilterSettings filterSettings) {
+        this.filterSettings = filterSettings;
+    }
 
 }

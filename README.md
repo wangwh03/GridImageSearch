@@ -2,7 +2,7 @@
 
 **GImage** is an android app that allows a user to search for images on web using simple filters. The app utilizes [Google Image Search API](https://developers.google.com/image-search/). Please note that API has been officially deprecated as of May 26, 2011.
 
-Time spent: **3** hours spent in total
+Time spent: **5** hours spent in total
 
 ## User Stories
 
@@ -10,12 +10,12 @@ The following **required** functionality is completed:
 
 * [X] User can **search for images** by specifying a query and launching a search. Search displays a grid of image results from the Google Image API.
 * [X] User can click on "settings" which allows selection of **advanced search options** to filter results
-* [ ] User can configure advanced search filters such as:
-  * [ ] Size (small, medium, large, extra-large)
-  * [ ] Color filter (black, blue, brown, gray, green, etc...)
-  * [ ] Type (faces, photo, clip art, line art)
-  * [ ] Site (espn.com)
-* [ ] Subsequent searches have any filters applied to the search results
+* [X] User can configure advanced search filters such as:
+  * [X] Size (small, medium, large, extra-large)
+  * [X] Color filter (black, blue, brown, gray, green, etc...)
+  * [X] Type (faces, photo, clip art, line art)
+  * [X] Site (espn.com)
+* [X] Subsequent searches have any filters applied to the search results
 * [X] User can tap on any image in results to see the image **full-screen**
 * [ ] User can **scroll down to see more images**. The maximum number of images is 64 (limited by API).
 
