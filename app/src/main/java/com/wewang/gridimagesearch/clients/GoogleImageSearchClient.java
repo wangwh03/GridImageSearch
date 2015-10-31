@@ -14,11 +14,13 @@ public class GoogleImageSearchClient {
 
     private final AsyncHttpClient client = new AsyncHttpClient();
     private final String BASE_URL = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0";
-
-    public void search(String query, int rsz, FilterSettings filterSettings, AsyncHttpResponseHandler handler) {
+    private final int LIMIT = 8;
+    public void search(String query, int offset,
+                       FilterSettings filterSettings, AsyncHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("q", query);
-        params.put("rsz", rsz);
+        params.put("rsz", LIMIT);
+        params.put("start", offset);
 
         if (filterSettings.getColor() != null) {
             params.put("imgcolor", filterSettings.getColor());
@@ -33,7 +35,8 @@ public class GoogleImageSearchClient {
             params.put("as_sitesearch", filterSettings.getSite());
         }
 
-        Log.d("DEBUG", filterSettings.toString());
+        Log.i("DEBUG", filterSettings.toString());
+        Log.i("offset", offset+"");
         client.get(BASE_URL, params, handler);
     }
 }

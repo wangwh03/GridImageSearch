@@ -5,14 +5,14 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:id="@+id/ivImage"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"/>
 
     <TextView
-        android:layout_width="80dp"
+        android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:text="@string/image_title"
         android:id="@+id/tvTitle"

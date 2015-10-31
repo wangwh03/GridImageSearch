@@ -10,13 +10,16 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.wewang.gridimagesearch.adapters.ImageResultsAdapter;
 import com.wewang.gridimagesearch.clients.GoogleImageSearchClient;
 import com.wewang.gridimagesearch.fragments.SettingsFragmentDialog;
+import com.wewang.gridimagesearch.listeners.EndlessScrollListener;
 import com.wewang.gridimagesearch.models.FilterSettings;
 import com.wewang.gridimagesearch.models.ImageResult;
 import com.wewang.gridimagesearch.utils.ImageResultParser;
@@ -38,6 +41,8 @@ public class SearchActivity extends AppCompatActivity implements SettingsFragmen
     private List<ImageResult> images;
     private ImageResultsAdapter imageResultsAdapter;
     private FilterSettings filterSettings = new FilterSettings("", "", "", "");
+    private GoogleImageSearchClient client = new GoogleImageSearchClient();
+    private String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,14 @@ public class SearchActivity extends AppCompatActivity implements SettingsFragmen
                 startActivity(intent);
             }
         });
+        gvResults.setOnScrollListener(new EndlessScrollListener() {
+
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                fetchImages(query, totalItemsCount);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -72,6 +85,8 @@ public class SearchActivity extends AppCompatActivity implements SettingsFragmen
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                SearchActivity.this.query = query;
+                images.clear();
                 fetchImages(query);
                 return true;
             }
@@ -106,15 +121,21 @@ public class SearchActivity extends AppCompatActivity implements SettingsFragmen
         settingsFragmentDialog.show(fm, "fragment_advanced_settings");
     }
 
+    public void customLoadMoreDataFromApi(int offset) {
+        fetchImages(query, offset);
+    }
+
     public void fetchImages(String query) {
-        GoogleImageSearchClient client = new GoogleImageSearchClient();
-        client.search(query, 8, filterSettings, new JsonHttpResponseHandler() {
+        fetchImages(query, 0);
+    }
+
+    public void fetchImages(String query, int offset) {
+        client.search(query, offset, filterSettings, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.d("DEBUG", response.toString());
                 try {
                     JSONArray imageResultsJson = response.getJSONObject("responseData").getJSONArray("results");
-                    images.clear();
                     imageResultsAdapter.addAll(ImageResultParser.parseFromJSONArray(imageResultsJson));
                 } catch (JSONException e) {
                     e.printStackTrace();
