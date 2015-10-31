@@ -102,7 +102,7 @@ public class SearchActivity extends AppCompatActivity implements SettingsFragmen
 
     public void launchSettingView() {
         FragmentManager fm = getSupportFragmentManager();
-        SettingsFragmentDialog settingsFragmentDialog = SettingsFragmentDialog.newInstance();
+        SettingsFragmentDialog settingsFragmentDialog = SettingsFragmentDialog.newInstance(filterSettings);
         settingsFragmentDialog.show(fm, "fragment_advanced_settings");
     }
 

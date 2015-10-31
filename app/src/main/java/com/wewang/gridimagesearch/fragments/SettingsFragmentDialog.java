@@ -1,16 +1,21 @@
 package com.wewang.gridimagesearch.fragments;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.wewang.gridimagesearch.R;
@@ -33,8 +38,12 @@ public class SettingsFragmentDialog extends DialogFragment {
 
     public SettingsFragmentDialog() { }
 
-    public static SettingsFragmentDialog newInstance() {
-        return new SettingsFragmentDialog();
+    public static SettingsFragmentDialog newInstance(FilterSettings filterSettings) {
+        SettingsFragmentDialog dialog = new SettingsFragmentDialog();
+        Bundle args = new Bundle();
+        args.putSerializable("filterSettings", filterSettings);
+        dialog.setArguments(args);
+        return dialog;
     }
 
     @Override
@@ -62,7 +71,7 @@ public class SettingsFragmentDialog extends DialogFragment {
         etColorFilter = (EditText) view.findViewById(R.id.etColorFilter);
         etImageType = (EditText) view.findViewById(R.id.etImageType);
         etSiteFilter = (EditText) view.findViewById(R.id.etSiteFilter);
-
+        btnCancel = (Button) view.findViewById(R.id.btnCancelSettings);
         btnSave = (Button) view.findViewById(R.id.btnSaveSettings);
 
         btnSave.setOnClickListener(new Button.OnClickListener() {
@@ -71,11 +80,25 @@ public class SettingsFragmentDialog extends DialogFragment {
                 dismiss();
             }
         });
+
+        btnCancel.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        FilterSettings filterSettings =
+                (FilterSettings) getArguments().getSerializable("filterSettings");
+        etImageSize.setText(filterSettings.getImageSize());
+        etColorFilter.setText(filterSettings.getColor());
+        etImageType.setText(filterSettings.getImageType());
+        etSiteFilter.setText(filterSettings.getSite());
     }
 
     @Override
     public void onDismiss(final DialogInterface dialog) {
-        Log.d("DEBUG", "dismissed");
+        Log.d("DEBUG", "dismissed for save");
         super.onDismiss(dialog);
         DismissDialogListener listener = (DismissDialogListener) getActivity();
         FilterSettings filterSettings = new FilterSettings(etImageSize.getText().toString(),
@@ -84,4 +107,5 @@ public class SettingsFragmentDialog extends DialogFragment {
                 etSiteFilter.getText().toString());
         listener.onFinishSettingDialog(filterSettings);
     }
+
 }
