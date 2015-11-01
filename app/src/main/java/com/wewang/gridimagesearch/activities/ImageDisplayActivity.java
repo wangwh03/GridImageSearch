@@ -61,7 +61,9 @@ public class ImageDisplayActivity extends AppCompatActivity {
         shareIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
         shareIntent.setType("image/*");
         // Attach share event to the menu item provider
-        miShareAction.setShareIntent(shareIntent);
+        if (miShareAction != null) {
+            miShareAction.setShareIntent(shareIntent);
+        }
     }
 
     public Uri getLocalBitmapUri(ImageView imageView) {
@@ -109,7 +111,7 @@ public class ImageDisplayActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_item_share) {
             return true;
         }
 
