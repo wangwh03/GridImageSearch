@@ -63,8 +63,6 @@ public class SettingsFragmentDialog extends DialogFragment {
 
         // Get field from view
         etImageSize = (EditText) view.findViewById(R.id.etImageSize);
-        // Show soft keyboard automatically and request focus to field
-        etImageSize.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
@@ -74,6 +72,30 @@ public class SettingsFragmentDialog extends DialogFragment {
         btnCancel = (Button) view.findViewById(R.id.btnCancelSettings);
         btnSave = (Button) view.findViewById(R.id.btnSaveSettings);
 
+        etImageSize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etImageSize.setText("");
+            }
+        });
+        etColorFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etColorFilter.setText("");
+            }
+        });
+        etImageType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etImageType.setText("");
+            }
+        });
+        etSiteFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etSiteFilter.setText("");
+            }
+        });
         btnSave.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,15 +112,18 @@ public class SettingsFragmentDialog extends DialogFragment {
 
         FilterSettings filterSettings =
                 (FilterSettings) getArguments().getSerializable("filterSettings");
-        etImageSize.setText(filterSettings.getImageSize());
-        etColorFilter.setText(filterSettings.getColor());
-        etImageType.setText(filterSettings.getImageType());
-        etSiteFilter.setText(filterSettings.getSite());
+        if (filterSettings != null) {
+            etImageSize.setText(filterSettings.getImageSize());
+            etColorFilter.setText(filterSettings.getColor());
+            etImageType.setText(filterSettings.getImageType());
+            etSiteFilter.setText(filterSettings.getSite());
+        } else {
+            Log.i("SettingsFragment", "no settings");
+        }
     }
 
     @Override
     public void onDismiss(final DialogInterface dialog) {
-        Log.d("DEBUG", "dismissed for save");
         super.onDismiss(dialog);
         DismissDialogListener listener = (DismissDialogListener) getActivity();
         FilterSettings filterSettings = new FilterSettings(etImageSize.getText().toString(),

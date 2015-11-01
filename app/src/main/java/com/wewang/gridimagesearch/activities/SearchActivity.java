@@ -1,21 +1,20 @@
 package com.wewang.gridimagesearch.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.wewang.gridimagesearch.R;
 import com.wewang.gridimagesearch.adapters.ImageResultsAdapter;
 import com.wewang.gridimagesearch.clients.GoogleImageSearchClient;
 import com.wewang.gridimagesearch.fragments.SettingsFragmentDialog;
@@ -23,13 +22,11 @@ import com.wewang.gridimagesearch.listeners.EndlessScrollListener;
 import com.wewang.gridimagesearch.models.FilterSettings;
 import com.wewang.gridimagesearch.models.ImageResult;
 import com.wewang.gridimagesearch.utils.ImageResultParser;
-import com.wewang.gridimagesearch.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +37,7 @@ public class SearchActivity extends AppCompatActivity implements SettingsFragmen
     private GridView gvResults;
     private List<ImageResult> images;
     private ImageResultsAdapter imageResultsAdapter;
-    private FilterSettings filterSettings = new FilterSettings("", "", "", "");
+    private FilterSettings filterSettings;
     private GoogleImageSearchClient client = new GoogleImageSearchClient();
     private String query;
 

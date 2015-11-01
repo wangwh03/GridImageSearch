@@ -15,4 +15,8 @@
     <string name="site_filter_label">Site Filter</string>
     <string name="save">save</string>
     <string name="cancel">cancel</string>
+    <string name="image_type_values">face/photo/clipart/lineart</string>
+    <string name="image_size_values">icon/small/medium/large/xlarge</string>
+    <string name="color_values">black/blue/gray/pink/red/white</string>
+    <string name="site_example">e.g. yahoo.com</string>
 </resources>

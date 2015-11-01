@@ -22,21 +22,21 @@ public class GoogleImageSearchClient {
         params.put("rsz", LIMIT);
         params.put("start", offset);
 
-        if (filterSettings.getColor() != null) {
-            params.put("imgcolor", filterSettings.getColor());
-        }
-        if (filterSettings.getImageSize() != null) {
-            params.put("imgsz", filterSettings.getImageSize());
-        }
-        if (filterSettings.getImageType() != null) {
-            params.put("imgtype", filterSettings.getImageType());
-        }
-        if (filterSettings.getSite() != null) {
-            params.put("as_sitesearch", filterSettings.getSite());
+        if (filterSettings != null) {
+            if (filterSettings.getColor() != null) {
+                params.put("imgcolor", filterSettings.getColor());
+            }
+            if (filterSettings.getImageSize() != null) {
+                params.put("imgsz", filterSettings.getImageSize());
+            }
+            if (filterSettings.getImageType() != null) {
+                params.put("imgtype", filterSettings.getImageType());
+            }
+            if (filterSettings.getSite() != null) {
+                params.put("as_sitesearch", filterSettings.getSite());
+            }
         }
 
-        Log.i("DEBUG", filterSettings.toString());
-        Log.i("offset", offset+"");
         client.get(BASE_URL, params, handler);
     }
 }
